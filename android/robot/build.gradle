@@ -197,3 +197,9 @@ dependencies {
         exclude module: 'guava-jdk5'
     }
 }
+
+task prepareKotlinBuildScriptModel {
+
+}
+
+apply plugin: 'com.google.gms.google-services'

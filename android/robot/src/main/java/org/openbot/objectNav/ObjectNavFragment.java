@@ -52,7 +52,7 @@ public class ObjectNavFragment extends CameraFragment {
   private HandlerThread handlerThread;
 
   private boolean computingNetwork = false;
-  public static float MINIMUM_CONFIDENCE_TF_OD_API = 0.5f;
+  public static float MINIMUM_CONFIDENCE_TF_OD_API = 0.5f; // 判斷是否有辨識到的最小信心值
 
   private static final float TEXT_SIZE_DIP = 10;
 
@@ -68,7 +68,7 @@ public class ObjectNavFragment extends CameraFragment {
   private MultiBoxTracker tracker;
 
   private Model model;
-  private Network.Device device = Network.Device.CPU;
+  private Network.Device device = Network.Device.NNAPI;
   private int numThreads = -1;
   private String classType = "person";
 
@@ -276,7 +276,7 @@ public class ObjectNavFragment extends CameraFragment {
         sensorOrientation);
   }
 
-  protected void onInferenceConfigurationChanged() {
+  protected void onInferenceConfigurationChanged() { // execute when the detect configuration changes
     computingNetwork = false;
     if (croppedBitmap == null) {
       // Defer creation until we're getting camera frames.
@@ -412,7 +412,7 @@ public class ObjectNavFragment extends CameraFragment {
     else audioPlayer.playDriveMode(voice, vehicle.getDriveMode());
   }
 
-  private void setNetworkEnabled(boolean b) {
+  private void setNetworkEnabled(boolean b) { // 打開自動影像辨識的程式
     binding.autoSwitch.setChecked(b);
 
     binding.controllerContainer.controlMode.setEnabled(!b);
@@ -470,19 +470,19 @@ public class ObjectNavFragment extends CameraFragment {
                         + results.get(0).getLocation().width());
 
               cropCopyBitmap = Bitmap.createBitmap(croppedBitmap);
-              final Canvas canvas1 = new Canvas(cropCopyBitmap);
+              final Canvas canvas1 = new Canvas(cropCopyBitmap); // 用來在螢幕上畫上框框用的
               final Paint paint = new Paint();
               paint.setColor(Color.RED);
               paint.setStyle(Paint.Style.STROKE);
               paint.setStrokeWidth(2.0f);
 
-              final List<Detector.Recognition> mappedRecognitions = new LinkedList<>();
+              final List<Detector.Recognition> mappedRecognitions = new LinkedList<>(); // 用來儲存辨識到之物體的List
 
               for (final Detector.Recognition result : results) {
                 final RectF location = result.getLocation();
                 if (location != null && result.getConfidence() >= MINIMUM_CONFIDENCE_TF_OD_API) {
                   canvas1.drawRect(location, paint);
-                  cropToFrameTransform.mapRect(location);
+                  cropToFrameTransform.mapRect(location); // crop 和 frame 解析度不同，需要進行轉換
                   result.setLocation(location);
                   mappedRecognitions.add(result);
                 }
@@ -490,7 +490,7 @@ public class ObjectNavFragment extends CameraFragment {
 
               tracker.trackResults(mappedRecognitions, frameNum);
               Control target = tracker.updateTarget();
-              if (mirrorControl) {
+              if (mirrorControl) { // 是否有開起鏡像模式
                 handleDriveCommand(target.mirror());
               } else {
                 handleDriveCommand(target);
@@ -524,7 +524,7 @@ public class ObjectNavFragment extends CameraFragment {
     requireActivity().runOnUiThread(() -> binding.inferenceInfo.setText(R.string.time_fps));
   }
 
-  protected void handleDriveCommand(Control control) {
+  protected void handleDriveCommand(Control control) { // 判斷物體位置並給出車子行進速度
     vehicle.setControl(control);
     float left = vehicle.getLeftSpeed();
     float right = vehicle.getRightSpeed();
