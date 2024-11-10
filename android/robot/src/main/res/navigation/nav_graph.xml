@@ -40,6 +40,10 @@
         <action
             android:id="@+id/action_mainFragment_to_robotInfoFragment"
             app:destination="@id/robotInfoFragment" />
+        <!-- Adding Tianjian fragments -->
+        <action
+            android:id="@+id/action_mainFragment_to_tianjianFragment"
+            app:destination="@id/tianjianFragment" />
     </fragment>
     <fragment
         android:id="@+id/freeRoamFragment"
@@ -170,5 +174,11 @@
     <fragment
         android:id="@+id/robotInfoFragment"
         android:name="org.openbot.robot.RobotInfoFragment"
+        android:label="RobotInfoFragment" />
+
+    <!-- Adding Tianjian fragments -->
+    <fragment
+        android:id="@+id/tianjianFragment"
+        android:name="org.openbot.tianjian.tianjianFragment"
         android:label="RobotInfoFragment" />
 </navigation>

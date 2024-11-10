@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   @Override
-  public boolean dispatchKeyEvent(KeyEvent event) {
+  public boolean dispatchKeyEvent(KeyEvent event) { // 處理按鈕按下的事件(包含返回建、音量鍵等)
     Bundle bundle = new Bundle();
     bundle.putParcelable(Constants.DATA_CONTINUOUS, event);
     getSupportFragmentManager().setFragmentResult(Constants.KEY_EVENT_CONTINUOUS, bundle);

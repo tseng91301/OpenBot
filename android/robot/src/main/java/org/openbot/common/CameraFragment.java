@@ -60,8 +60,8 @@ public abstract class CameraFragment extends ControlsFragment {
     // set lensFacing from user preferences (last used setting)
     lensFacing =
         preferencesManager.getCameraSwitch()
-            ? CameraSelector.LENS_FACING_FRONT
-            : CameraSelector.LENS_FACING_BACK;
+            ? CameraSelector.LENS_FACING_BACK
+            : CameraSelector.LENS_FACING_FRONT;
     previewView = cameraView.findViewById(R.id.viewFinder);
     rootView.addView(view);
 

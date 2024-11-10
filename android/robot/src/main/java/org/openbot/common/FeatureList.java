@@ -63,6 +63,13 @@ public class FeatureList {
   public static final String SENSORS_FROM_CAR = "Sensors from Car";
   public static final String SENSORS_FROM_PHONE = "Sensors from Phone";
   public static final String MAP_VIEW = "Map View";
+
+  // Custom functions
+  public static final String CUSTOM = "Custom Functions";
+  public static final String TIANJIAN = "田間機器人";
+  public static final String TIANJIAN_ENG = "";
+  public static final String CUSTOM1 = "custom-1";
+
   // endregion
 
   @NotNull
@@ -90,6 +97,12 @@ public class FeatureList {
     subCategories = new ArrayList<>();
     subCategories.add(new SubCategory(DEFAULT, R.drawable.ic_legacy_car, "#F86363"));
     categories.add(new Category(LEGACY, subCategories));
+
+    // Add Custom functions
+    subCategories = new ArrayList<>();
+    subCategories.add(new SubCategory(CUSTOM1, R.drawable.ic_controller, "#00D11F"));
+    subCategories.add(new SubCategory(TIANJIAN, R.drawable.ic_baseline_golf_course, "#CC00FF"));
+    categories.add(new Category(CUSTOM, subCategories));
 
     /*
         subCategories = new ArrayList<>();

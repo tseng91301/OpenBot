@@ -97,6 +97,11 @@ public class MainFragment extends Fragment implements OnItemClickListener<SubCat
             .navigate(R.id.action_mainFragment_to_modelManagementFragment);
         break;
 
+      case FeatureList.TIANJIAN:
+        Navigation.findNavController(requireView())
+                .navigate(R.id.action_mainFragment_to_tianjianFragment);
+        break;
+
       case FeatureList.DEFAULT:
         Intent intent = new Intent(requireActivity(), DefaultActivity.class);
         startActivity(intent);
