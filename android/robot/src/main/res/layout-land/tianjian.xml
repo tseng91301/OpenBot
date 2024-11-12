@@ -148,6 +148,15 @@
                     tools:entries="@array/models"
                     android:prompt="@string/model" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingVertical="12dp"
+                    android:paddingStart="8dp"
+                    android:text="@string/tianjian_word"
+                    android:textColor="@android:color/black" />
+
             </LinearLayout>
 
             <LinearLayout

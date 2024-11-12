@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.SystemClock;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,7 @@ import java.util.Locale;
 import org.jetbrains.annotations.NotNull;
 import org.openbot.R;
 import org.openbot.common.CameraFragment;
-import org.openbot.databinding.FragmentObjectNavBinding;
+import org.openbot.databinding.TianjianBinding;
 import org.openbot.env.BorderedText;
 import org.openbot.env.ImageUtils;
 import org.openbot.tflite.Detector;
@@ -47,12 +48,12 @@ import org.openbot.vehicle.Control;
 import timber.log.Timber;
 
 public class tianjianFragment extends CameraFragment {
-  private FragmentObjectNavBinding binding;
+  private TianjianBinding binding;
   private Handler handler;
   private HandlerThread handlerThread;
 
   private boolean computingNetwork = false;
-  public static float MINIMUM_CONFIDENCE_TF_OD_API = 0.5f; // 判斷是否有辨識到的最小信心值
+  public static float MINIMUM_CONFIDENCE_TF_OD_API = 0.45f; // 判斷是否有辨識到的最小信心值
 
   private static final float TEXT_SIZE_DIP = 10;
 
@@ -89,7 +90,7 @@ public class tianjianFragment extends CameraFragment {
   public View onCreateView(
       @NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     // Inflate the layout for this fragment
-    binding = FragmentObjectNavBinding.inflate(inflater, container, false);
+    binding = TianjianBinding.inflate(inflater, container, false);
 
     return inflateFragment(binding, inflater, container);
   }
@@ -267,8 +268,8 @@ public class tianjianFragment extends CameraFragment {
 
     binding.trackingOverlay.addCallback(
         canvas -> {
-          tracker.draw(canvas);
-          //          tracker.drawDebug(canvas);
+          tracker.draw(canvas); // 將框框繪製到影像中
+//          tracker.drawDebug(canvas);
         });
     tracker.setFrameConfiguration(
         getMaxAnalyseImageSize().getWidth(),
@@ -472,9 +473,11 @@ public class tianjianFragment extends CameraFragment {
               cropCopyBitmap = Bitmap.createBitmap(croppedBitmap);
               final Canvas canvas1 = new Canvas(cropCopyBitmap); // 用來在螢幕上畫上框框用的
               final Paint paint = new Paint();
-              paint.setColor(Color.RED);
-              paint.setStyle(Paint.Style.STROKE);
-              paint.setStrokeWidth(2.0f);
+
+              // 這邊不需要定義paint 的性質，會被 org.openbot.tracking.MultiBoxTracker 覆蓋
+//              paint.setColor(Color.RED);
+//              paint.setStyle(Paint.Style.STROKE);
+//              paint.setStrokeWidth(2.0f);
 
               final List<Detector.Recognition> mappedRecognitions = new LinkedList<>(); // 用來儲存辨識到之物體的List
 

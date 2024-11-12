@@ -208,7 +208,8 @@ public class MultiBoxTracker {
       final RectF trackedPos = new RectF(recognition.location);
 
       getFrameToCanvasMatrix().mapRect(trackedPos);
-      boxPaint.setColor(recognition.color);
+      boxPaint.setColor(recognition.color); // 在這邊設定框框的顏色
+//      boxPaint.setColor(Color.RED);
 
       float cornerSize = Math.min(trackedPos.width(), trackedPos.height()) / 8.0f;
       canvas.drawRoundRect(trackedPos, cornerSize, cornerSize, boxPaint);
@@ -221,15 +222,15 @@ public class MultiBoxTracker {
       borderedText.drawText(
           canvas, trackedPos.left + cornerSize, trackedPos.top, labelString + "%", boxPaint);
 
-      //      if (recognition == trackedObjects.get(0)) {
-      //        borderedText.drawText(
-      //                canvas,
-      //                trackedPos.left + cornerSize,
-      //                trackedPos.top + 40.0f,
-      //                String.format(Locale.US, "%.2f", leftControl) + "," + String.format("%.2f",
-      // rightControl),
-      //                boxPaint);
-      //      }
+//      if (recognition == trackedObjects.get(0)) {
+//        borderedText.drawText(
+//                canvas,
+//                trackedPos.left + cornerSize,
+//                trackedPos.top + 40.0f,
+//                String.format(Locale.US, "%.2f", leftControl) + "," + String.format("%.2f",
+// rightControl),
+//                boxPaint);
+//      }
     }
   }
 
