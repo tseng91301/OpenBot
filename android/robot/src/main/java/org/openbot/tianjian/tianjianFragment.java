@@ -1,5 +1,7 @@
 package org.openbot.tianjian;
 
+import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -132,7 +134,7 @@ public class tianjianFragment extends CameraFragment {
 
     classType = preferencesManager.getObjectType();
     binding.classType.setOnItemSelectedListener(
-        new AdapterView.OnItemSelectedListener() {
+        new AdapterView.OnItemSelectedListener() { // 偵測物件選項修改
           @Override
           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             classType = parent.getItemAtPosition(position).toString();
@@ -327,9 +329,9 @@ public class tianjianFragment extends CameraFragment {
                     new ArrayAdapter<>(
                         getContext(),
                         android.R.layout.simple_dropdown_item_1line,
-                        detector.getLabels());
+                        detector.getLabels()); // 取得 Detector 中的所有辨識標籤
                 binding.classType.setAdapter(adapter);
-                binding.classType.setSelection(
+                binding.classType.setSelection( // 設定一開始選擇要偵測的物件(預設選項)
                     detector.getLabels().indexOf(preferencesManager.getObjectType()));
                 binding.inputResolution.setText(
                     String.format(
@@ -429,7 +431,7 @@ public class tianjianFragment extends CameraFragment {
   }
 
   @Override
-  protected void processFrame(Bitmap bitmap, ImageProxy image) {
+  protected void processFrame(Bitmap bitmap, ImageProxy image) { // 處理並辨識讀取到的影像
     if (tracker == null) updateCropImageInfo();
 
     ++frameNum;
@@ -455,8 +457,14 @@ public class tianjianFragment extends CameraFragment {
             if (detector != null) {
               Timber.i("Running detection on image %s", frameNum);
               final long startTime = SystemClock.elapsedRealtime();
-              final List<Detector.Recognition> results =
-                  detector.recognizeImage(croppedBitmap, classType);
+
+              // 修改程式，使其可以一次判斷所有物件
+              final List<Detector.Recognition> results;
+              if (classType == "All Classes") {
+                results = detector.recognizeImage(croppedBitmap, null);
+              }else {
+                results = detector.recognizeImage(croppedBitmap, classType);
+              }
               lastProcessingTimeMs = SystemClock.elapsedRealtime() - startTime;
 
               if (!results.isEmpty())

@@ -179,7 +179,7 @@ public abstract class Detector extends Network {
     return labels;
   }
 
-  public List<Recognition> recognizeImage(final Bitmap bitmap, String className)
+  public List<Recognition> recognizeImage(final Bitmap bitmap, String className) // 這個程式是用於圖像的物件偵測，傳入 null 的 className 會使其判斷模型中的所有物件
       throws IllegalArgumentException {
     // Log this method so that it can be analyzed with systrace.
     Trace.beginSection("recognizeImage");
@@ -425,8 +425,10 @@ public abstract class Detector extends Network {
     return labels.size();
   }
 
-  public List<String> getLabels() {
+  public List<String> getLabels() { // 取得 Network 中的所有 Labels
     List<String> list = new ArrayList<>();
+    // 加入一個 "All Classes" Label
+    list.add("All Classes");
     for (String label : labels) if (!label.equals("???")) list.add(label);
     return list;
   }
